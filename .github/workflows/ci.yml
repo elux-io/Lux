@@ -1,0 +1,46 @@
+name: Build & Test
+
+on:
+  push:
+    # branch:
+    #   - main
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - 'xmake.lua'
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup xmake
+        uses: xmake-io/github-action-setup-xmake@v1
+        with:
+          xmake-version: latest
+
+      - name: Build
+        run: |
+          xmake f -m debug -y
+          xmake -y
+
+      - name: Test
+        run: xmake test -v
+
+  badges:
+    needs: build
+
+    steps:
+      - name: Hello world action step
+        uses: ./
+        id: hello
+        with:
+          badge-name: 'badge-${{ matrix.os }}'
+          status: ${{ job.needs.build.result }}
