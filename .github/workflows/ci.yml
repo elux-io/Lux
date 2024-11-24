@@ -4,10 +4,10 @@ on:
   push:
     # branch:
     #   - main
-    paths:
-      - 'src/**'
-      - 'tests/**'
-      - 'xmake.lua'
+    # paths:
+    #   - 'src/**'
+    #   - 'tests/**'
+    #   - 'xmake.lua'
 
 jobs:
   build:
