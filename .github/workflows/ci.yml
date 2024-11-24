@@ -35,7 +35,7 @@ jobs:
         run: xmake test -v
 
       - name: Generate badge
-        uses: ./
+        uses: ./.github/actions/gen-badge
         id: hello
         with:
           badge-name: 'badge-${{ matrix.os }}'
