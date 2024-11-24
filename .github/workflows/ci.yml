@@ -34,13 +34,10 @@ jobs:
       - name: Test
         run: xmake test -v
 
-  badges:
-    needs: build
-
-    steps:
-      - name: Hello world action step
+      - name: Generate badge
         uses: ./
         id: hello
         with:
           badge-name: 'badge-${{ matrix.os }}'
-          status: ${{ job.needs.build.result }}
+          status: ${{ job.status }}
+      
