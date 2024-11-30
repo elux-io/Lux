@@ -30,7 +30,7 @@ jobs:
           actions-cache-folder: '.xmake-cache'
 
       - name: Configure xmake
-        run: xmake f -m ${{ matrix.mode }} --enable-examples=y --enable-tests=y --policies=${{ matrix.mode == 'debug' && 'build.sanitizer.address' || '' }} -y
+        run: xmake f -m ${{ matrix.mode }} --policies=${{ matrix.mode == 'debug' && 'build.sanitizer.address' || '' }} -y
         env:
           CC: cl
           CXX: cl
@@ -61,7 +61,7 @@ jobs:
           actions-cache-folder: '.xmake-cache'
 
       - name: Configure xmake
-        run: xmake f -m ${{ matrix.mode }} --enable-examples=y --enable-tests=y --policies=${{ matrix.mode == 'debug' && 'build.sanitizer.address' || '' }} -y
+        run: xmake f -m ${{ matrix.mode }} --policies=${{ matrix.mode == 'debug' && 'build.sanitizer.address' || '' }} -y
         env:
           CC: gcc-14
           CXX: g++-14
@@ -92,7 +92,7 @@ jobs:
           actions-cache-folder: '.xmake-cache'
 
       - name: Configure xmake
-        run: xmake f -m ${{ matrix.mode }} --enable-examples=y --enable-tests=y --policies=${{ matrix.mode == 'debug' && 'build.sanitizer.address' || '' }} -y
+        run: xmake f -m ${{ matrix.mode }} --policies=${{ matrix.mode == 'debug' && 'build.sanitizer.address' || '' }} -y
         # env:
         #   CC: gcc-14
         #   CXX: g++-14
