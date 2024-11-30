@@ -1,0 +1,12 @@
+name: 'Generate Badge'
+description: 'Greet someone and record the time'
+inputs:
+  badge-name:
+    description: 'Name of the badge'
+    required: true
+  status:
+    description: 'Status (`success` or `failure`)'
+    required: true
+runs:
+  using: 'node20'
+  main: 'index.js'
