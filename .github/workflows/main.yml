@@ -89,7 +89,6 @@ jobs:
         uses: xmake-io/github-action-setup-xmake@v1
         with:
           xmake-version: latest
-          actions-cache-folder: '.xmake-cache'
 
       - name: Configure xmake
         run: xmake f -m ${{ matrix.mode }} --policies=${{ matrix.mode == 'debug' && 'build.sanitizer.address' || '' }} -y
@@ -136,7 +135,6 @@ jobs:
         uses: xmake-io/github-action-setup-xmake@v1
         with:
           xmake-version: latest
-          actions-cache-folder: '.xmake-cache'
 
       - name: Configure xmake
         run: xmake f -m coverage -y
