@@ -20,7 +20,7 @@ jobs:
           status: 'passing'
           os: 'windows'
 
-      - run: echo ${{ steps.badge.outputs.svg }}
+      - run: echo "${{ steps.badge.outputs.svg }}"
           
   # build-test-windows:
   #   name: 'Build & Test (Windows, MSVC, ${{ matrix.mode }})'
