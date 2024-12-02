@@ -10,144 +10,156 @@ on:
     #   - 'xmake.lua'
 
 jobs:
-  build-test-windows:
-    name: 'Build & Test (Windows, MSVC, ${{ matrix.mode }})'
-
-    strategy:
-      fail-fast: false
-      matrix:
-        mode: [debug, release]
-
-    runs-on: windows-latest
-
+  toto:
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Install xmake
-        uses: xmake-io/github-action-setup-xmake@v1
+      - uses: elux-io/gen-badges@a1e2f652fda3770847d027854c840c830dd2075b
+        id: badge
         with:
-          xmake-version: latest
+          theme: 'dark'
+          status: 'passing'
+          os: 'windows'
 
-      - name: Configure xmake
-        run: xmake f -m ${{ matrix.mode }} --policies=${{ matrix.mode == 'debug' && 'build.sanitizer.address' || '' }} -y
-        env:
-          CC: cl
-          CXX: cl
-
-      - name: Build
-        run: xmake -y
-
-      - name: Test
-        run: xmake test -v
-
-  build-test-linux:
-    name: 'Build & Test (Ubuntu, gcc, ${{ matrix.mode }})'
-
-    strategy:
-      fail-fast: false
-      matrix:
-        mode: [debug, release]
-
-    runs-on: ubuntu-24.04
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install xmake
-        uses: xmake-io/github-action-setup-xmake@v1
-        with:
-          xmake-version: latest
-
-      - name: Configure xmake
-        run: xmake f -m ${{ matrix.mode }} --policies=${{ matrix.mode == 'debug' && 'build.sanitizer.address' || '' }} -y
-        env:
-          CC: gcc-14
-          CXX: g++-14
-
-      - name: Build
-        run: xmake -y
-
-      - name: Test
-        run: xmake test -v
-
-  build-test-macos:
-    name: 'Build & Test (macOS, clang, ${{ matrix.mode }})'
-
-    strategy:
-      fail-fast: false
-      matrix:
-        mode: [debug, release]
-
-    runs-on: macos-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install xmake
-        uses: xmake-io/github-action-setup-xmake@v1
-        with:
-          xmake-version: latest
-
-      - name: Configure xmake
-        run: xmake f -m ${{ matrix.mode }} --policies=${{ matrix.mode == 'debug' && 'build.sanitizer.address' || '' }} -y
-        # env:
-        #   CC: gcc-14
-        #   CXX: g++-14
-
-      - name: Build
-        run: xmake -y
-
-      - name: Test
-        run: xmake test -v
-
-  # gen-badges:
-  #   if: ${{ !cancelled() }}
-  #   needs: [build-test-windows, build-test-ubuntu]
-  #   runs-on: ubuntu-latest
+      - run: echo ${{ steps.badge.outputs.svg }}
+          
+  # build-test-windows:
+  #   name: 'Build & Test (Windows, MSVC, ${{ matrix.mode }})'
 
   #   strategy:
+  #     fail-fast: false
   #     matrix:
-  #       os: [windows, ubuntu]
+  #       mode: [debug, release]
+
+  #   runs-on: windows-latest
 
   #   steps:
-  #     - run: echo "${{ format('needs.build-test-{0}.result', matrix.os) }}"
-  #     # - name: Hello world action step
-  #     #   uses: ./
-  #     #   id: hello
-  #     #   with:
-  #     #     badge-name: 'badge-${{ matrix.os }}'
-  #     #     status: ${{ job.needs.build.'build-test-${{ matrix.os }}'.result }}
+  #     - uses: actions/checkout@v4
 
-  coverage:
-    runs-on: ubuntu-24.04
+  #     - name: Install xmake
+  #       uses: xmake-io/github-action-setup-xmake@v1
+  #       with:
+  #         xmake-version: latest
 
-    steps:
-      - name: Install gcovr
-        run: |
-          sudo apt-get update
-          sudo apt install gcovr -y
+  #     - name: Configure xmake
+  #       run: xmake f -m ${{ matrix.mode }} --policies=${{ matrix.mode == 'debug' && 'build.sanitizer.address' || '' }} -y
+  #       env:
+  #         CC: cl
+  #         CXX: cl
 
-      - uses: actions/checkout@v4
+  #     - name: Build
+  #       run: xmake -y
 
-      - name: Install xmake
-        uses: xmake-io/github-action-setup-xmake@v1
-        with:
-          xmake-version: latest
+  #     - name: Test
+  #       run: xmake test -v
 
-      - name: Configure xmake
-        run: xmake f -m coverage -y
-        env:
-          CC: gcc-14
-          CXX: g++-14
+  # build-test-linux:
+  #   name: 'Build & Test (Ubuntu, gcc, ${{ matrix.mode }})'
 
-      - name: Build
-        run: xmake -vy
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       mode: [debug, release]
 
-      - name: Test
-        run: xmake test -v
+  #   runs-on: ubuntu-24.04
 
-      - name: Generate coverage report
-        id: coverage
-        run: echo "percent=$(gcovr -s -o coverage.txt -f src build/.objs | awk '/lines/ {print $2}' | tr -d %)" >> $GITHUB_OUTPUT
+  #   steps:
+  #     - uses: actions/checkout@v4
 
-      - run: echo ${{ steps.coverage.outputs.percent }}
+  #     - name: Install xmake
+  #       uses: xmake-io/github-action-setup-xmake@v1
+  #       with:
+  #         xmake-version: latest
+
+  #     - name: Configure xmake
+  #       run: xmake f -m ${{ matrix.mode }} --policies=${{ matrix.mode == 'debug' && 'build.sanitizer.address' || '' }} -y
+  #       env:
+  #         CC: gcc-14
+  #         CXX: g++-14
+
+  #     - name: Build
+  #       run: xmake -y
+
+  #     - name: Test
+  #       run: xmake test -v
+
+  # build-test-macos:
+  #   name: 'Build & Test (macOS, clang, ${{ matrix.mode }})'
+
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       mode: [debug, release]
+
+  #   runs-on: macos-latest
+
+  #   steps:
+  #     - uses: actions/checkout@v4
+
+  #     - name: Install xmake
+  #       uses: xmake-io/github-action-setup-xmake@v1
+  #       with:
+  #         xmake-version: latest
+
+  #     - name: Configure xmake
+  #       run: xmake f -m ${{ matrix.mode }} --policies=${{ matrix.mode == 'debug' && 'build.sanitizer.address' || '' }} -y
+  #       # env:
+  #       #   CC: gcc-14
+  #       #   CXX: g++-14
+
+  #     - name: Build
+  #       run: xmake -y
+
+  #     - name: Test
+  #       run: xmake test -v
+
+  # # gen-badges:
+  # #   if: ${{ !cancelled() }}
+  # #   needs: [build-test-windows, build-test-ubuntu]
+  # #   runs-on: ubuntu-latest
+
+  # #   strategy:
+  # #     matrix:
+  # #       os: [windows, ubuntu]
+
+  # #   steps:
+  # #     - run: echo "${{ format('needs.build-test-{0}.result', matrix.os) }}"
+  # #     # - name: Hello world action step
+  # #     #   uses: ./
+  # #     #   id: hello
+  # #     #   with:
+  # #     #     badge-name: 'badge-${{ matrix.os }}'
+  # #     #     status: ${{ job.needs.build.'build-test-${{ matrix.os }}'.result }}
+
+  # coverage:
+  #   runs-on: ubuntu-24.04
+
+  #   steps:
+  #     - name: Install gcovr
+  #       run: |
+  #         sudo apt-get update
+  #         sudo apt install gcovr -y
+
+  #     - uses: actions/checkout@v4
+
+  #     - name: Install xmake
+  #       uses: xmake-io/github-action-setup-xmake@v1
+  #       with:
+  #         xmake-version: latest
+
+  #     - name: Configure xmake
+  #       run: xmake f -m coverage -y
+  #       env:
+  #         CC: gcc-14
+  #         CXX: g++-14
+
+  #     - name: Build
+  #       run: xmake -vy
+
+  #     - name: Test
+  #       run: xmake test -v
+
+  #     - name: Generate coverage report
+  #       id: coverage
+  #       run: echo "percent=$(gcovr -s -o coverage.txt -f src build/.objs | awk '/lines/ {print $2}' | tr -d %)" >> $GITHUB_OUTPUT
+
+  #     - run: echo ${{ steps.coverage.outputs.percent }}
