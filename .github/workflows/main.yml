@@ -13,7 +13,7 @@ jobs:
   toto:
     runs-on: ubuntu-latest
     steps:
-      - uses: elux-io/gen-badges@a1e2f652fda3770847d027854c840c830dd2075b
+      - uses: elux-io/gen-badges@7d119bdd75a1d35e1414e9aa1c3b7279ecb61068
         id: badge
         with:
           theme: 'dark'
