@@ -21,8 +21,21 @@ jobs:
           os: 'windows'
 
       - name: yo
-        run: echo "${{ steps.badge.outputs.svg }}"
+        run: |
+          echo "${{ steps.badge.outputs.svg }}" > badge.svg
+          git add badge.svg
           
+  push-badges:
+    runs-on: ubuntu-latest
+    needs: [toto]
+    steps:
+      - name: Commit
+        run: |
+          git switch badges
+          git commit -m 'badge' --amend
+
+      - name: Push
+        run: git push -f
   # build-test-windows:
   #   name: 'Build & Test (Windows, MSVC, ${{ matrix.mode }})'
 
