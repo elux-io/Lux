@@ -1,7 +1,6 @@
 #pragma once
 
 #include <type_traits>
-#include <compare>
 #include <concepts>
 
 #define LUX_ENABLE_FLAGS(Enum, flagsConfig) \
