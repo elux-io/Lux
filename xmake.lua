@@ -5,7 +5,7 @@ option("enable-demos", { default = false })
 option("enable-tests", { default = false })
 
 add_rules("mode.debug", "mode.release", "mode.coverage")
-add_cxxflags("/Zc:preprocessor", "/Zc:templateScope", "/Zc:throwingNew", "/Zc:enumTypes", { tools = "cl" })
+add_cxxflags("/Zc:preprocessor", "/Zc:templateScope", "/Zc:throwingNew", "/Zc:enumTypes", "/Zc:__cplusplus", { tools = "cl" })
 
 target("lux")
 	set_kind("static")
